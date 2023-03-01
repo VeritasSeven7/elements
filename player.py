@@ -37,10 +37,6 @@ class Player(Sprite):
         for i in range (0, 4):
             self.idle_cycle.append(pygame.transform.scale(pygame.image.load('assets/Player/idle/adventurer-idle-0'+str(i)+'.png'), (200, 148)))
 
-        self.idle_sword = []
-        for i in range (0, 4):
-            self.idle_sword.append(pygame.transform.scale(pygame.image.load('assets/Player/idle/adventurer-idle-2-0'+str(i)+'.png'), (200, 148)))
-
         # walking frames
         self.walking_cycle = []
         for i in range (0, 6):
@@ -51,30 +47,17 @@ class Player(Sprite):
         self.facing_left = False
 
     def idle_animation(self):
-        if self.sword_out:
-            self.idle_image = self.idle_sword[self.idle_index]
-            self.idle_rect = self.idle_image.get_rect()
-            if self.facing_left:
-                self.idle_image = pygame.transform.flip(self.idle_image, True, False)
+        self.idle_image = self.idle_cycle[self.idle_index]
+        self.idle_rect = self.idle_image.get_rect()
+        if self.facing_left:
+            self.idle_image = pygame.transform.flip(self.idle_image, True, False)
 
-            if self.idle_index < len(self.idle_sword) - 1:
-                if pygame.time.get_ticks() - self.last_update > self.frame_interval:
-                    self.idle_index += 1
-                    self.last_update = pygame.time.get_ticks()
-            else:
-                self.idle_index = 0
+        if self.idle_index < len(self.idle_cycle) - 1:
+            if pygame.time.get_ticks() - self.last_update > self.frame_interval:
+                self.idle_index += 1
+                self.last_update = pygame.time.get_ticks()
         else:
-            self.idle_image = self.idle_cycle[self.idle_index]
-            self.idle_rect = self.idle_image.get_rect()
-            if self.facing_left:
-                self.idle_image = pygame.transform.flip(self.idle_image, True, False)
-
-            if self.idle_index < len(self.idle_cycle) - 1:
-                if pygame.time.get_ticks() - self.last_update > self.frame_interval:
-                    self.idle_index += 1
-                    self.last_update = pygame.time.get_ticks()
-            else:
-                self.idle_index = 0
+            self.idle_index = 0
 
         self.screen.blit(self.idle_image, self.idle_rect)
 
