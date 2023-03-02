@@ -13,15 +13,34 @@ class Events:
 
         # keyboard key strokes
         keys = pygame.key.get_pressed()
+        # Escape key
         if keys[pygame.K_ESCAPE]:
             sys.exit()
 
-        elif keys[pygame.K_RIGHT]:
+        # Key arrows for movement
+        elif keys[pygame.K_LEFT] and not keys[pygame.K_DOWN]:
+            el_game.player.facing_left = True
             el_game.player.no_action = False
             el_game.player.walk_animation()
+        elif keys[pygame.K_RIGHT] and not keys[pygame.K_DOWN]:
+            el_game.player.facing_left = False
+            el_game.player.no_action = False
+            el_game.player.walk_animation()
+        elif keys[pygame.K_DOWN] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+            el_game.player.no_action = False
+            el_game.player.crouch_animation()
+        elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
+            el_game.player.facing_left = False
+            el_game.player.no_action = False
+            el_game.player.crouch_walk_animation()
+        elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
+            el_game.player.facing_left = True
+            el_game.player.no_action = False
+            el_game.player.crouch_walk_animation()
 
         else:
             el_game.player.no_action = True
+
 
     def joystick(self, el_game):
         joystick = pygame.joystick.Joystick(0)
