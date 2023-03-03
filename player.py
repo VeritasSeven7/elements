@@ -11,6 +11,11 @@ class Player(Sprite):
         self.settings = el_game.settings
         self.screen_rect = el_game.screen.get_rect()
 
+        # player states
+        self.grounded = True
+        self.running = False
+        self.invincible = False
+
         """animations for player"""
         # set animation indexes
         self.cast_index = 0

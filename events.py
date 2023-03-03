@@ -1,6 +1,7 @@
 import sys
 import pygame
 
+
 class Events:
     def __init__(self, el_game):
         pass
@@ -18,31 +19,58 @@ class Events:
             sys.exit()
 
         # Key arrows for movement
-        elif keys[pygame.K_LEFT] and not keys[pygame.K_DOWN]:
-            el_game.player.facing_left = True
-            el_game.player.no_action = False
-            el_game.player.walk_animation()
-        elif keys[pygame.K_RIGHT] and not keys[pygame.K_DOWN]:
-            el_game.player.facing_left = False
-            el_game.player.no_action = False
-            el_game.player.walk_animation()
-        elif keys[pygame.K_DOWN] and not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-            el_game.player.no_action = False
-            el_game.player.crouch_animation()
-        elif keys[pygame.K_DOWN] and keys[pygame.K_RIGHT]:
-            el_game.player.facing_left = False
-            el_game.player.no_action = False
-            el_game.player.crouch_walk_animation()
-        elif keys[pygame.K_DOWN] and keys[pygame.K_LEFT]:
-            el_game.player.facing_left = True
-            el_game.player.no_action = False
-            el_game.player.crouch_walk_animation()
+        elif keys[pygame.K_a] and not keys[pygame.K_s]:
+            self._move_left(el_game)
+        elif keys[pygame.K_d] and not keys[pygame.K_s]:
+            self._move_right(el_game)
+        elif keys[pygame.K_s] and not keys[pygame.K_a] and not keys[pygame.K_d]:
+            self._crouch(el_game)
+        elif keys[pygame.K_s] and keys[pygame.K_d]:
+            self._right_crouch_walk(el_game)
+        elif keys[pygame.K_s] and keys[pygame.K_a]:
+            self._left_crouch_walk(el_game)
+
+        elif keys[pygame.K_SPACE]:
+            self._jump(el_game)
+
+
 
         else:
             el_game.player.no_action = True
 
+    # working out controller support later :/
+    """def joystick(self, el_game):
+        for event in pygame.event.get():
+            if event.type == pygame.JOYHATMOTION:
+                print(event)
+                self.hat = el_game.joystick.get_hat(0)
+                if self.hat == (-1, 0):
+                    self._move_left(el_game)"""
 
-    def joystick(self, el_game):
-        joystick = pygame.joystick.Joystick(0)
-        #for event in pygame.event.get():
-           # if event.type == pygame.joystick.J
+    def _move_left(self, el_game):
+        el_game.player.facing_left = True
+        el_game.player.no_action = False
+        el_game.player.walk_animation()
+
+    def _move_right(self, el_game):
+        el_game.player.facing_left = False
+        el_game.player.no_action = False
+        el_game.player.walk_animation()
+
+    def _crouch(self, el_game):
+        el_game.player.no_action = False
+        el_game.player.crouch_animation()
+
+    def _right_crouch_walk(self, el_game):
+        el_game.player.facing_left = False
+        el_game.player.no_action = False
+        el_game.player.crouch_walk_animation()
+
+    def _left_crouch_walk(self, el_game):
+        el_game.player.facing_left = True
+        el_game.player.no_action = False
+        el_game.player.crouch_walk_animation()
+
+    def _jump(self, el_game):
+        el_game.player.no_action = False
+        el_game.player.jump_animation()
